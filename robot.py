@@ -19,12 +19,23 @@ class Robot(wpilib.TimedRobot):
         self.sd.putNumber("Left Back Speed", 0)
         self.sd.putNumber("Right Back Speed", 0)
 
-    def robotPeriodic(self):
+        self.sd.putBoolean("Left Run", False)
+        self.sd.putBoolean("Right Run", False)
+
+    def teleopPeriodic(self):
 
         self.leftFrontSpeed = self.sd.getNumber("Left Front Speed", 0)
         self.rightFrontSpeed = self.sd.getNumber("Right Front Speed", 0)
         self.leftBackSpeed = self.sd.getNumber("Left Back Speed", 0)
         self.rightBackSpeed = self.sd.getNumber("Right Back Speed", 0)
+
+        # if self.sd.getBoolean("Left Run", False):
+        #     self.leftFrontSpeed = 1
+        #     self.leftBackSpeed = 1
+            
+        # if self.sd.getBoolean("Right Run", False):
+        #     self.rightFrontSpeed = 1
+        #     self.rightBackSpeed = 1
 
         self.leftFront.set(self.leftFrontSpeed)
         self.rightFront.set(-self.rightFrontSpeed)
