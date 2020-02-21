@@ -6,10 +6,10 @@ from networktables import NetworkTables
 class Robot(wpilib.TimedRobot):
 
     def robotInit(self):
-        self.leftFront = WPI_TalonSRX(5)
-        self.rightFront = WPI_TalonSRX(6)
-        self.leftBack = WPI_TalonSRX(7)
-        self.rightBack = WPI_TalonSRX(8)
+        self.leftFront = WPI_TalonSRX(0)
+        self.rightFront = WPI_TalonSRX(1)
+        self.leftBack = WPI_TalonSRX(2)
+        self.rightBack = WPI_TalonSRX(3)
 
         NetworkTables.initialize(server="10.17.57.2")
         self.sd = NetworkTables.getTable("SmartDashboard")
