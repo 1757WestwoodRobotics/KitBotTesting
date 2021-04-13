@@ -6,25 +6,25 @@ from networktables import NetworkTables
 class Robot(wpilib.TimedRobot):
 
     def robotInit(self):
-        self.leftFront = WPI_TalonSRX(0)
-        self.rightFront = WPI_TalonSRX(1)
+        self.leftFront = WPI_TalonSRX(1)
+        self.rightFront = WPI_TalonSRX(0)
         self.leftBack = WPI_TalonSRX(2)
         self.rightBack = WPI_TalonSRX(3)
 
         NetworkTables.initialize(server="10.17.57.2")
         self.sd = NetworkTables.getTable("SmartDashboard")
 
-        self.sd.putNumber("Talon 0 Speed", 0)
-        self.sd.putNumber("Talon 1 Speed", 0)
-        self.sd.putNumber("Talon 2 Speed", 0)
-        self.sd.putNumber("Talon 3 Speed", 0)
+        self.sd.putNumber(("Talon " + str(self.leftFront.getDeviceID()) + " Speed"), 0)
+        self.sd.putNumber(("Talon " + str(self.leftBack.getDeviceID()) + " Speed"), 0)
+        self.sd.putNumber(("Talon " + str(self.rightFront.getDeviceID()) + " Speed"), 0)
+        self.sd.putNumber(("Talon " + str(self.rightBack.getDeviceID()) + " Speed"), 0)
 
     def teleopPeriodic(self):
 
-        self.leftFrontSpeed = self.sd.getNumber("Talon 0 Speed", 0)
-        self.rightFrontSpeed = self.sd.getNumber("Talon 1 Speed", 0)
-        self.leftBackSpeed = self.sd.getNumber("Talon 2 Speed", 0)
-        self.rightBackSpeed = self.sd.getNumber("Talon 3 Speed", 0)
+        self.leftFrontSpeed = self.sd.getNumber(("Talon " + str(self.leftFront.getDeviceID()) + " Speed"), 0)
+        self.rightFrontSpeed = self.sd.getNumber(("Talon " + str(self.rightFront.getDeviceID()) + " Speed"), 0)
+        self.leftBackSpeed = self.sd.getNumber(("Talon " + str(self.leftBack.getDeviceID()) + " Speed"), 0)
+        self.rightBackSpeed = self.sd.getNumber(("Talon " + str(self.rightBack.getDeviceID()) + " Speed"), 0)
 
         self.leftFront.set(self.leftFrontSpeed)
         self.rightFront.set(-self.rightFrontSpeed)
