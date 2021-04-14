@@ -20,6 +20,7 @@ class Robot(wpilib.TimedRobot):
         self.differentialDrive = wpilib.drive.DifferentialDrive(self.leftDrive, self.rightDrive)
 
         self.xboxController = XboxController(0)
+    
     def teleopPeriodic(self):
 
         self.differentialDrive.arcadeDrive(self.xboxController.getY(GenericHID.Hand.kLeftHand),
