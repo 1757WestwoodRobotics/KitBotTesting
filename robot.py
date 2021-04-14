@@ -1,5 +1,8 @@
 import wpilib
-from wpilib import drive
+from wpilib import SpeedControllerGroup
+import wpilib.drive
+from wpilib import XboxController
+from wpilib.interfaces import GenericHID
 from ctre import WPI_TalonSRX
 from networktables import NetworkTables
 
@@ -11,25 +14,16 @@ class Robot(wpilib.TimedRobot):
         self.leftBack = WPI_TalonSRX(2)
         self.rightBack = WPI_TalonSRX(3)
 
-        NetworkTables.initialize(server="10.17.57.2")
-        self.sd = NetworkTables.getTable("SmartDashboard")
+        self.leftDrive = SpeedControllerGroup(self.leftFront, self.leftBack)
+        self.rightDrive = SpeedControllerGroup(self.rightFront, self.rightBack)
 
-        self.sd.putNumber(("Talon " + str(self.leftFront.getDeviceID()) + " Speed"), 0)
-        self.sd.putNumber(("Talon " + str(self.leftBack.getDeviceID()) + " Speed"), 0)
-        self.sd.putNumber(("Talon " + str(self.rightFront.getDeviceID()) + " Speed"), 0)
-        self.sd.putNumber(("Talon " + str(self.rightBack.getDeviceID()) + " Speed"), 0)
+        self.differentialDrive = wpilib.drive.DifferentialDrive(self.leftDrive, self.rightDrive)
 
+        self.xboxController = XboxController(0)
     def teleopPeriodic(self):
 
-        self.leftFrontSpeed = self.sd.getNumber(("Talon " + str(self.leftFront.getDeviceID()) + " Speed"), 0)
-        self.rightFrontSpeed = self.sd.getNumber(("Talon " + str(self.rightFront.getDeviceID()) + " Speed"), 0)
-        self.leftBackSpeed = self.sd.getNumber(("Talon " + str(self.leftBack.getDeviceID()) + " Speed"), 0)
-        self.rightBackSpeed = self.sd.getNumber(("Talon " + str(self.rightBack.getDeviceID()) + " Speed"), 0)
-
-        self.leftFront.set(self.leftFrontSpeed)
-        self.rightFront.set(-self.rightFrontSpeed)
-        self.leftBack.set(self.leftBackSpeed)
-        self.rightBack.set(-self.rightBackSpeed)
+        self.differentialDrive.arcadeDrive(self.xboxController.getY(GenericHID.Hand.kLeftHand),
+            -self.xboxController.getX(GenericHID.Hand.kRightHand), True)
 
 if __name__ == "__main__":
     wpilib.run(Robot)
