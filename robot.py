@@ -23,8 +23,8 @@ class Robot(wpilib.TimedRobot):
     
     def teleopPeriodic(self):
 
-        self.differentialDrive.arcadeDrive(self.xboxController.getY(GenericHID.Hand.kLeftHand),
-            -self.xboxController.getX(GenericHID.Hand.kRightHand), True)
+        self.differentialDrive.arcadeDrive(-self.xboxController.getY(GenericHID.Hand.kLeftHand),
+            self.xboxController.getX(GenericHID.Hand.kRightHand), True)
 
 if __name__ == "__main__":
     wpilib.run(Robot)
